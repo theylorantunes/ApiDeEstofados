@@ -70,7 +70,7 @@
         <h2 class="font-display text-4xl md:text-5xl dark:text-white mt-4 text-gray-700">Espaços com Personalidade</h2>
 
     </div>
-    
+
     <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
         <a href="/documentacao" style="background-color: #C9A05C; color: #1F2B44; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 5px; font-family: sans-serif; display: inline-block; transition: 0.3s;">
             📄 Acessar Documentação da API (Swagger)
@@ -126,7 +126,7 @@
         const grid = document.getElementById('estofados-grid');
 
         try {
-            const response = await fetch('http://localhost:8080/estofados');
+            const response = await fetch('/estofados');
             if (!response.ok) throw new Error('Erro de conexão com a API');
 
             const data = await response.json();
