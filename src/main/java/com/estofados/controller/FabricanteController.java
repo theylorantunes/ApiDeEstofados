@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class FabricanteController {
     @Autowired CategoriaRepository categoriaRepository;
     @Autowired FabricanteModelAssembler assembler;
 
-    @Hidden
+    @Tag(name = "3. Fabricantes", description = "Fornecedores e parceiros de negócio")
     @PostMapping
     public ResponseEntity<?> salvarFabricante(@RequestBody @Valid FabricanteRecordDto dto) {
         var categoria = categoriaRepository.findById(dto.categoriaId())

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CategoriaController {
     @Autowired CategoriaRepository repository;
     @Autowired CategoriaModelAssembler assembler;
 
-    @Hidden
+    @Tag(name = "2. Categorias", description = "Classificação de ambientes e uso")
     @PostMapping
     public ResponseEntity<?> salvarCategoria(@RequestBody @Valid CategoriaRecordDto dto) {
         var modelo = new CategoriaModel();

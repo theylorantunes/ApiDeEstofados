@@ -32,8 +32,8 @@ public class RateLimitFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Não aplica limite no Swagger e rotas públicas
-        if (path.startsWith("/swagger-ui") || path.startsWith("/api-docs") || path.startsWith("/v3/api-docs") ||
+
+        if (path.startsWith("/swagger-") || path.startsWith("/api-docs") || path.startsWith("/v3/api-docs") ||
                 path.startsWith("/documentacao") || path.equals("/") || path.startsWith("/v1/auth/key") || path.startsWith("/webjars")) {
             filterChain.doFilter(request, response);
             return;
@@ -44,16 +44,16 @@ public class RateLimitFilter extends OncePerRequestFilter {
             apiKey = request.getRemoteAddr(); // Usa o IP caso a chave não esteja presente (fallback)
         }
 
-        // Recupera ou cria um bucket para o cliente atual
+
         Bucket bucket = buckets.computeIfAbsent(apiKey, k -> criarNovoBucket());
 
         if (bucket.tryConsume(1)) {
-            // Requisição permitida, segue o fluxo
+
             filterChain.doFilter(request, response);
         } else {
-            // Limite excedido: retorna 429 Too Many Requests
+
             response.setStatus(429);
-            response.setHeader("Retry-After", "60"); // Informa para tentar novamente em 60 segundos
+            response.setHeader("Retry-After", "60");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("{\"erro\": \"Limite de requisições excedido. Tente novamente mais tarde.\"}");

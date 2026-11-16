@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class EspecificacaoController {
     @Autowired EspecificacaoRepository repository;
     @Autowired EspecificacaoModelAssembler assembler;
 
-    @Hidden
+    @Tag(name = "5. Especificações Técnicas", description = "Fichas técnicas, dimensões e limites")
     @PostMapping
     public ResponseEntity<?> salvarEspecificacao(@RequestBody @Valid EspecificacaoRecordDto dto) {
         var modelo = new EspecificacaoModel();
