@@ -8,6 +8,12 @@ import com.estofados.repository.EspecificacaoRepository;
 import com.estofados.repository.EstofadoRepository;
 import com.estofados.repository.FabricanteRepository;
 import com.estofados.repository.MaterialRepository;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +46,7 @@ public class EstofadoController {
     @Autowired
     EstofadoModelAssembler assembler;
 
-    // 1 post
+    @Hidden
     @PostMapping
     public ResponseEntity<?> salvarEstofado(@RequestBody @Valid EstofadoRecordDto dto) {
         var fabricante = fabricanteRepository.findById(dto.fabricanteId())
@@ -63,14 +69,21 @@ public class EstofadoController {
                 .body(entityModel);
     }
 
-    // 2 get
+    @Operation(summary = "Listar todos os estofados de forma paginada")
     @GetMapping
-    public ResponseEntity<Page<EntityModel<EstofadoModel>>> listarEstofados(@PageableDefault(size = 10, sort = {"nomeModelo"}) Pageable pageable) {
+    public ResponseEntity<Page<EntityModel<EstofadoModel>>> listarEstofados(
+            @Parameter(description = "Configurações de paginação")
+            @PageableDefault(size = 10, sort = {"nomeModelo"}) Pageable pageable) {
         Page<EstofadoModel> estofados = estofadoRepository.findAll(pageable);
         return ResponseEntity.ok(estofados.map(assembler::toModel));
     }
 
-    // 3 get por id
+    @Operation(summary = "Busca um estofado específico por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estofado encontrado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Estofado não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno no servidor", content = @Content)
+    })
     @GetMapping("/{id}")
     public EntityModel<EstofadoModel> buscarPorId(@PathVariable(value = "id") Long id) {
         EstofadoModel estofado = estofadoRepository.findById(id)
@@ -79,7 +92,7 @@ public class EstofadoController {
         return assembler.toModel(estofado);
     }
 
-    // 4 atualizar
+    @Hidden
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarEstofado(@PathVariable(value = "id") Long id, @RequestBody @Valid EstofadoRecordDto dto) {
         EstofadoModel estofadoModel = estofadoRepository.findById(id)
@@ -103,7 +116,7 @@ public class EstofadoController {
                 .body(entityModel);
     }
 
-    // 5 delete
+    @Hidden
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarEstofado(@PathVariable(value = "id") Long id) {
         EstofadoModel estofado = estofadoRepository.findById(id)
@@ -113,7 +126,7 @@ public class EstofadoController {
         return ResponseEntity.noContent().build();
     }
 
-    // 6 consulta por modelo
+    @Operation(summary = "Busca estofados pelo modelo")
     @GetMapping("/modelo/{nome}")
     public ResponseEntity<List<EntityModel<EstofadoModel>>> buscarPorModelo(@PathVariable(value = "nome") String nome) {
         List<EntityModel<EstofadoModel>> lista = estofadoRepository.findByNomeModeloContainingIgnoreCase(nome)
