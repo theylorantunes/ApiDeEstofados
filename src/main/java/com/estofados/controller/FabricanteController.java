@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/fabricantes")
+@RequestMapping("/v1/fabricantes")
 public class FabricanteController {
 
     @Autowired FabricanteRepository repository;

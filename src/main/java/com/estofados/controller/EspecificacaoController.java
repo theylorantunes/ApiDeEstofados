@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/especificacoes")
+@RequestMapping("/v1/especificacoes")
 public class EspecificacaoController {
 
     @Autowired EspecificacaoRepository repository;

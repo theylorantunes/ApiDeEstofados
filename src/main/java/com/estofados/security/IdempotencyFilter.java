@@ -25,7 +25,7 @@ public class IdempotencyFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
 
-        if ("POST".equalsIgnoreCase(request.getMethod()) && !path.startsWith("/auth/key")) {
+        if ("POST".equalsIgnoreCase(request.getMethod()) && !path.startsWith("/v1/auth/key")) {
             String idempotencyKey = request.getHeader(IDEMPOTENCY_HEADER);
 
 
@@ -46,7 +46,7 @@ public class IdempotencyFilter extends OncePerRequestFilter {
                 return;
             }
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }

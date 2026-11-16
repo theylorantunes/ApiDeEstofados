@@ -126,7 +126,7 @@
         const grid = document.getElementById('estofados-grid');
 
         try {
-            const response = await fetch('/estofados');
+            const response = await fetch('/v1/estofados');
             if (!response.ok) throw new Error('Erro de conexão com a API');
 
             const data = await response.json();
