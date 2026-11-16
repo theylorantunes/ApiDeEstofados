@@ -126,7 +126,12 @@
         const grid = document.getElementById('estofados-grid');
 
         try {
-            const response = await fetch('/v1/estofados');
+            const response = await fetch('/v1/estofados', {
+                method: 'GET',
+                headers: {
+                    'X-API-Key': 'rubye-master-key-123'
+                }
+            })
             if (!response.ok) throw new Error('Erro de conexão com a API');
 
             const data = await response.json();
