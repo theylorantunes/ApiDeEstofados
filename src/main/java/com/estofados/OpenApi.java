@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "Rubye Estofados API",
+                title = "API Antunes Interiores",
                 version = "1.0.0",
-                description = "API RESTful comercial para consulta de catálogo, categorias e especificações de estofados de alto padrão.",
-                contact = @Contact(name = "Suporte Rubye", email = "api@rubye.com", url = "https://rubye.com/suporte"),
-                license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html")
+                description = "API RESTful comercial para consulta de catálogo, categorias e especificações de estofados de alto padrão. Requer chave de autenticação (X-API-Key). Limite do plano gratuito: 30 req/min.",
+                contact = @Contact(name = "Suporte Antunes Interiores", email = "suporte@antunesinteriores.com", url = "https://antunesinteriores.com"),
+                license = @License(name = "Termos de Uso", url = "/termos_de_servico.md")
         )
 )
 public class OpenApi { }
