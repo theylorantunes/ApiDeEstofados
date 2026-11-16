@@ -1,0 +1,41 @@
+/* Estilização personalizada - Antunes Interiores */
+.swagger-ui {
+    background-color: #111827 !important;
+    color: #F3F4F6 !important;
+    font-family: sans-serif !important;
+}
+
+/* Barra de topo do Swagger */
+.swagger-ui .topbar {
+    background-color: #0B132B !important;
+    border-bottom: 2px solid #C9A05C !important;
+}
+
+/* Caixa de texto de busca e inputs */
+.swagger-ui .opblock-tag, .swagger-ui .tab select {
+    color: #F3F4F6 !important;
+}
+
+/* Botões de Ação (Executar, Authorize) */
+.swagger-ui .btn.authorize {
+    background-color: #C9A05C !important;
+    border-color: #C9A05C !important;
+    color: #0B132B !important;
+    font-weight: bold !important;
+}
+
+.swagger-ui .btn.execute {
+    background-color: #10B981 !important;
+    color: #FFF !important;
+}
+
+/* Cores dos blocos de métodos (GET, POST) */
+.swagger-ui .opblock.opblock-get {
+    background: rgba(59, 130, 246, 0.1) !important;
+    border-color: #3B82F6 !important;
+}
+
+.swagger-ui .opblock.opblock-post {
+    background: rgba(16, 185, 129, 0.1) !important;
+    border-color: #10B981 !important;
+}
