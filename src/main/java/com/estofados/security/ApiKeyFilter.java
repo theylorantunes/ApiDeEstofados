@@ -26,7 +26,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
 
 
         if (path.startsWith("/swagger-") || path.startsWith("/api-docs") || path.startsWith("/v3/api-docs") ||
-                path.startsWith("/documentacao") || path.equals("/") || path.startsWith("/v1/auth/key") || path.startsWith("/webjars")) {
+                path.startsWith("/documentacao") || path.equals("/") || path.startsWith("/auth/key") || path.startsWith("/webjars")) {
             filterChain.doFilter(request, response);
             return;
         }
