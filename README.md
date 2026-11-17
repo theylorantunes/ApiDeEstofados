@@ -13,15 +13,15 @@ Este projeto foi construído seguindo rigorosos padrões de engenharia de softwa
 * **Data Transfer Objects (DTOs):** Encapsulamento de dados utilizando Java Records e validação rigorosa via **Jakarta Bean Validation**.
 * **Global Exception Handling:** Tratamento unificado de erros com padrão RFC, garantindo que o cliente nunca receba stacktraces expostos, e sim respostas no formato `ErroPadrao` (`400`, `404`, `409`, `429`, `500`).
 
-## ⚙️ Como Executar o Projeto
+## ☁️ Acesso à Produção (Deploy)
+A API está hospedada e totalmente funcional em ambiente de nuvem (Render).
+* **URL Base da API:** `https://apideestofados.onrender.com`
+* **Documentação Interativa (Swagger):** 👉 **[https://apideestofados.onrender.com/documentacao](https://apideestofados.onrender.com/documentacao)**
 
-1. Clone o repositório:
-   `git clone https://github.com/theylorantunes/ApiDeEstofados.git`
-2. Acesse a pasta do projeto:
-   `cd ApiDeEstofados`
-3. Execute via Maven:
-   `./mvnw spring-boot:run`
-4. A aplicação estará disponível em: `http://localhost:8080`
+## ⚙️ Como Executar Localmente
+1. Clone o repositório e acesse a pasta: `git clone https://github.com/theylorantunes/ApiDeEstofados.git`
+2. Execute o projeto via Maven: `./mvnw spring-boot:run`
+3. A documentação local estará em: `http://localhost:8080/documentacao`
 
 ## 📖 Documentação Interativa (Swagger)
 
