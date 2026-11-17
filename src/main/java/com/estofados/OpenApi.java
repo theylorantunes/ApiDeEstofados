@@ -14,17 +14,18 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "API Antunes Interiores",
-                version = "1.0.0",
-                description = "API RESTful comercial para consulta de catálogo, categorias e especificações de estofados de alto padrão. Requer chave de autenticação (X-API-Key). Limite do plano gratuito: 30 req/min.",
-                contact = @Contact(name = "Suporte Antunes Interiores", email = "suporte@antunesinteriores.com", url = "https://antunes-interiores.vercel.app"),
+                version = "1.0",
+                description = "API RESTful comercial para consulta de catálogo, categorias e especificações de estofados de alto padrão. Requer chave de autenticação (X-API-Key).",
+                contact = @Contact(name = "Suporte Antunes Interiores", email = "suporte@antunesinteriores.com"),
                 license = @License(name = "Termos de Uso", url = "/termos_de_servico.md")
         ),
-        security = @SecurityRequirement(name = "ApiKeyAuth") // Aplica a trava globalmente no Swagger
+        security = @SecurityRequirement(name = "ApiKeyAuth")
 )
 @SecurityScheme(
         name = "ApiKeyAuth",
         type = SecuritySchemeType.APIKEY,
         in = SecuritySchemeIn.HEADER,
-        paramName = "X-API-Key" // Nome exato do header que o professor pediu
+        paramName = "X-API-Key"
 )
-public class OpenApi { }
+public class OpenApi {
+}

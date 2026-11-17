@@ -1,8 +1,8 @@
-/* Estilização personalizada - Antunes Interiores */
+/* Estilização Personalizada - Antunes Interiores (Dark Mode Premium) */
 .swagger-ui {
     background-color: #111827 !important;
     color: #F3F4F6 !important;
-    font-family: sans-serif !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
 /* Barra de topo do Swagger */
@@ -11,12 +11,15 @@
     border-bottom: 2px solid #C9A05C !important;
 }
 
-/* Caixa de texto de busca e inputs */
-.swagger-ui .opblock-tag, .swagger-ui .tab select {
+/* Textos e títulos */
+.swagger-ui .opblock-tag,
+.swagger-ui .tab select,
+.swagger-ui .info h1,
+.swagger-ui .info p {
     color: #F3F4F6 !important;
 }
 
-/* Botões de Ação (Executar, Authorize) */
+/* Botões de Ação (Authorize) */
 .swagger-ui .btn.authorize {
     background-color: #C9A05C !important;
     border-color: #C9A05C !important;
@@ -24,12 +27,14 @@
     font-weight: bold !important;
 }
 
+/* Botão Executar */
 .swagger-ui .btn.execute {
     background-color: #10B981 !important;
     color: #FFF !important;
+    font-weight: bold !important;
 }
 
-/* Cores dos blocos de métodos (GET, POST) */
+/* Cores dos blocos de métodos */
 .swagger-ui .opblock.opblock-get {
     background: rgba(59, 130, 246, 0.1) !important;
     border-color: #3B82F6 !important;
@@ -38,4 +43,14 @@
 .swagger-ui .opblock.opblock-post {
     background: rgba(16, 185, 129, 0.1) !important;
     border-color: #10B981 !important;
+}
+
+.swagger-ui .opblock.opblock-put {
+    background: rgba(245, 158, 11, 0.1) !important;
+    border-color: #F59E0B !important;
+}
+
+.swagger-ui .opblock.opblock-delete {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: #EF4444 !important;
 }
