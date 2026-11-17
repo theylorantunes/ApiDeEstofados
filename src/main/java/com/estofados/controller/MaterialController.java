@@ -5,9 +5,7 @@ import com.estofados.exception.MaterialNotFoundException;
 import com.estofados.controller.dto.MaterialRecordDto;
 import com.estofados.model.MaterialModel;
 import com.estofados.repository.MaterialRepository;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,13 +23,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/materiais")
+@RequestMapping("/materiais")
+@Tag(name = "4. Materiais", description = "Componentes e revestimentos dos móveis")
 public class MaterialController {
 
     @Autowired MaterialRepository repository;
     @Autowired MaterialModelAssembler assembler;
 
-    @Tag(name = "4. Materiais", description = "Componentes e revestimentos dos móveis")
+    @Operation(summary = "Criar material")
     @PostMapping
     public ResponseEntity<?> salvarMaterial(@RequestBody @Valid MaterialRecordDto dto) {
         var modelo = new MaterialModel();
@@ -43,7 +42,6 @@ public class MaterialController {
     @Operation(summary = "Listar todos os materiais de forma paginada")
     @GetMapping
     public ResponseEntity<Page<EntityModel<MaterialModel>>> listarMateriais(
-            @Parameter(description = "Configurações de paginação")
             @PageableDefault(size = 10, sort = {"nomeMaterial"}) Pageable pageable) {
         return ResponseEntity.ok(repository.findAll(pageable).map(assembler::toModel));
     }
@@ -51,24 +49,23 @@ public class MaterialController {
     @Operation(summary = "Busca um material específico pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Material encontrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Material não encontrado", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Material não encontrado", content = @Content)
     })
     @GetMapping("/{id}")
     public EntityModel<MaterialModel> buscarPorId(@PathVariable(value = "id") Long id) {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id)));
     }
 
-    @Hidden
+    @Operation(summary = "Atualiza um material")
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarMaterial(@PathVariable(value = "id") Long id, @RequestBody @Valid MaterialRecordDto dto) {
         var modelo = repository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id));
         BeanUtils.copyProperties(dto, modelo);
         EntityModel<MaterialModel> entityModel = assembler.toModel(repository.save(modelo));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        return ResponseEntity.ok(entityModel);
     }
 
-    @Hidden
+    @Operation(summary = "Deleta um material")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarMaterial(@PathVariable(value = "id") Long id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id)));

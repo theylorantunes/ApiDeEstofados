@@ -8,13 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 @Configuration
 public class LoadDatabase {
-
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
     @Bean
@@ -23,13 +21,13 @@ public class LoadDatabase {
                                    CategoriaRepository categoriaRepository,
                                    MaterialRepository materialRepository) {
         return args -> {
-            // salva categoria
+            // Salva a categoria
             CategoriaModel sala = new CategoriaModel();
             sala.setNomeCategoria("sala de estar");
             sala.setDescricaoUso("uso interno residencial");
             categoriaRepository.save(sala);
 
-            // salva fabricante
+            // Salva o fabricante
             FabricanteModel herval = new FabricanteModel();
             herval.setNomeFabricante("herval");
             herval.setCnpj("12345678901234");
@@ -37,7 +35,7 @@ public class LoadDatabase {
             herval.setCategoria(sala);
             fabricanteRepository.save(herval);
 
-            // salva materiais
+            // Salva os materiais
             MaterialModel linho = new MaterialModel();
             linho.setNomeMaterial("linho cru");
             linho.setTipoParte("revestimento");
@@ -48,13 +46,13 @@ public class LoadDatabase {
             madeira.setTipoParte("estrutura");
             materialRepository.save(madeira);
 
-            // cria especificacao
+            // Cria a especificação (o Cascade.ALL no EstofadoModel vai persistir ela automaticamente)
             EspecificacaoModel espec = new EspecificacaoModel();
             espec.setDimensoes("2.20m x 0.90m");
             espec.setPesoSuportadoKg(300);
             espec.setDensidadeEspuma("d-33");
 
-            // salva estofado amarrando tudo
+            // Salva o estofado amarrando tudo
             EstofadoModel sofa = new EstofadoModel();
             sofa.setNomeModelo("sofa retratil master");
             sofa.setPreco(new BigDecimal("3500.00"));
@@ -64,7 +62,7 @@ public class LoadDatabase {
             sofa.setEspecificacao(espec);
             sofa.setMateriais(Arrays.asList(linho, madeira));
 
-            log.info("carregando estofado de teste: " + estofadoRepository.save(sofa));
+            log.info("Carregando estofado de teste: " + estofadoRepository.save(sofa));
         };
     }
 }

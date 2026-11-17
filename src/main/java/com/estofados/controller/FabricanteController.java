@@ -7,9 +7,7 @@ import com.estofados.exception.FabricanteNotFoundException;
 import com.estofados.model.FabricanteModel;
 import com.estofados.repository.CategoriaRepository;
 import com.estofados.repository.FabricanteRepository;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,14 +25,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/fabricantes")
+@RequestMapping("/fabricantes")
+@Tag(name = "3. Fabricantes", description = "Fornecedores e parceiros de negócio")
 public class FabricanteController {
 
     @Autowired FabricanteRepository repository;
     @Autowired CategoriaRepository categoriaRepository;
     @Autowired FabricanteModelAssembler assembler;
 
-    @Tag(name = "3. Fabricantes", description = "Fornecedores e parceiros de negócio")
+    @Operation(summary = "Criar fabricante")
     @PostMapping
     public ResponseEntity<?> salvarFabricante(@RequestBody @Valid FabricanteRecordDto dto) {
         var categoria = categoriaRepository.findById(dto.categoriaId())
@@ -50,7 +49,6 @@ public class FabricanteController {
     @Operation(summary = "Listar todos os fabricantes de forma paginada")
     @GetMapping
     public ResponseEntity<Page<EntityModel<FabricanteModel>>> listarFabricantes(
-            @Parameter(description = "Configurações de paginação")
             @PageableDefault(size = 10, sort = {"nomeFabricante"}) Pageable pageable) {
         return ResponseEntity.ok(repository.findAll(pageable).map(assembler::toModel));
     }
@@ -58,15 +56,14 @@ public class FabricanteController {
     @Operation(summary = "Busca um fabricante específico pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fabricante encontrado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Fabricante não encontrado", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Erro interno no servidor", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Fabricante não encontrado", content = @Content)
     })
     @GetMapping("/{id}")
     public EntityModel<FabricanteModel> buscarPorId(@PathVariable(value = "id") Long id) {
         return assembler.toModel(repository.findById(id).orElseThrow(() -> new FabricanteNotFoundException(id)));
     }
 
-    @Hidden
+    @Operation(summary = "Atualiza fabricante")
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarFabricante(@PathVariable(value = "id") Long id, @RequestBody @Valid FabricanteRecordDto dto) {
         var modelo = repository.findById(id).orElseThrow(() -> new FabricanteNotFoundException(id));
@@ -77,10 +74,10 @@ public class FabricanteController {
         modelo.setCategoria(categoria);
 
         EntityModel<FabricanteModel> entityModel = assembler.toModel(repository.save(modelo));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        return ResponseEntity.ok(entityModel);
     }
 
-    @Hidden
+    @Operation(summary = "Deleta fabricante")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarFabricante(@PathVariable(value = "id") Long id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new FabricanteNotFoundException(id)));
