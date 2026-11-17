@@ -31,6 +31,11 @@ public class MaterialController {
     @Autowired MaterialModelAssembler assembler;
 
     @Operation(summary = "Criar material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Material criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado")
+    })
     @PostMapping
     public ResponseEntity<?> salvarMaterial(@RequestBody @Valid MaterialRecordDto dto) {
         var modelo = new MaterialModel();
@@ -40,6 +45,10 @@ public class MaterialController {
     }
 
     @Operation(summary = "Listar todos os materiais de forma paginada")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado")
+    })
     @GetMapping
     public ResponseEntity<Page<EntityModel<MaterialModel>>> listarMateriais(
             @PageableDefault(size = 10, sort = {"nomeMaterial"}) Pageable pageable) {
@@ -49,6 +58,7 @@ public class MaterialController {
     @Operation(summary = "Busca um material específico pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Material encontrado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
             @ApiResponse(responseCode = "404", description = "Material não encontrado", content = @Content)
     })
     @GetMapping("/{id}")
@@ -57,6 +67,12 @@ public class MaterialController {
     }
 
     @Operation(summary = "Atualiza um material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Material atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Material não encontrado", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarMaterial(@PathVariable(value = "id") Long id, @RequestBody @Valid MaterialRecordDto dto) {
         var modelo = repository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id));
@@ -66,6 +82,11 @@ public class MaterialController {
     }
 
     @Operation(summary = "Deleta um material")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Material excluído com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Material não encontrado", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarMaterial(@PathVariable(value = "id") Long id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new MaterialNotFoundException(id)));
@@ -73,6 +94,10 @@ public class MaterialController {
     }
 
     @Operation(summary = "Busca materiais pelo tipo da parte")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado")
+    })
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<EntityModel<MaterialModel>>> buscarPorTipo(@PathVariable(value = "tipo") String tipo) {
         return ResponseEntity.ok(repository.findByTipoParteIgnoreCase(tipo).stream().map(assembler::toModel).toList());

@@ -34,6 +34,12 @@ public class FabricanteController {
     @Autowired FabricanteModelAssembler assembler;
 
     @Operation(summary = "Criar fabricante")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Fabricante criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Categoria vinculada não encontrada", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<?> salvarFabricante(@RequestBody @Valid FabricanteRecordDto dto) {
         var categoria = categoriaRepository.findById(dto.categoriaId())
@@ -47,6 +53,10 @@ public class FabricanteController {
     }
 
     @Operation(summary = "Listar todos os fabricantes de forma paginada")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listagem retornada com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado")
+    })
     @GetMapping
     public ResponseEntity<Page<EntityModel<FabricanteModel>>> listarFabricantes(
             @PageableDefault(size = 10, sort = {"nomeFabricante"}) Pageable pageable) {
@@ -56,6 +66,7 @@ public class FabricanteController {
     @Operation(summary = "Busca um fabricante específico pelo ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fabricante encontrado com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
             @ApiResponse(responseCode = "404", description = "Fabricante não encontrado", content = @Content)
     })
     @GetMapping("/{id}")
@@ -64,6 +75,12 @@ public class FabricanteController {
     }
 
     @Operation(summary = "Atualiza fabricante")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fabricante atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Fabricante ou Categoria não encontrados", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<?> atualizarFabricante(@PathVariable(value = "id") Long id, @RequestBody @Valid FabricanteRecordDto dto) {
         var modelo = repository.findById(id).orElseThrow(() -> new FabricanteNotFoundException(id));
@@ -78,6 +95,11 @@ public class FabricanteController {
     }
 
     @Operation(summary = "Deleta fabricante")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Fabricante excluído com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado"),
+            @ApiResponse(responseCode = "404", description = "Fabricante não encontrado", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarFabricante(@PathVariable(value = "id") Long id) {
         repository.delete(repository.findById(id).orElseThrow(() -> new FabricanteNotFoundException(id)));
@@ -85,6 +107,10 @@ public class FabricanteController {
     }
 
     @Operation(summary = "Busca fabricantes por cidade")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca realizada com sucesso"),
+            @ApiResponse(responseCode = "401", description = "Acesso não autorizado")
+    })
     @GetMapping("/cidade/{cidade}")
     public ResponseEntity<List<EntityModel<FabricanteModel>>> buscarPorCidade(@PathVariable(value = "cidade") String cidade) {
         return ResponseEntity.ok(repository.findByCidadeSedeIgnoreCase(cidade).stream().map(assembler::toModel).toList());
